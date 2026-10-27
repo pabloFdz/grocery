@@ -1,0 +1,530 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pantry Price — Grocery Tracker</title>
+<style>
+:root{--bg:#f5f6f2;--panel:#fff;--ink:#20271f;--muted:#6d756b;--line:#e3e7df;--accent:#315c43;--accent2:#e7efe7;--red:#a43c35;--amber:#8a5a12;--shadow:0 8px 28px #2030200a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:10px;padding:9px 13px;font-weight:600}button:hover{border-color:#9caf9b}button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}button.danger{color:var(--red)}button.small{font-size:12px;padding:5px 8px}.app{max-width:1280px;margin:auto;padding:24px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:24px}.brand{display:flex;gap:12px;align-items:center}.logo{width:44px;height:44px;background:var(--accent);color:white;display:grid;place-items:center;border-radius:14px;font-size:23px}.brand h1{font-size:21px;margin:0;letter-spacing:-.5px}.brand p{margin:2px 0 0;color:var(--muted);font-size:13px}.actions{display:flex;gap:8px;flex-wrap:wrap}.layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:22px}.sidebar,.panel,.stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}.sidebar{padding:10px;height:max-content;position:sticky;top:16px}.nav{display:flex;align-items:center;gap:10px;width:100%;border:0;text-align:left;background:transparent;padding:12px;border-radius:10px;font-weight:600;color:var(--muted)}.nav.active{background:var(--accent2);color:var(--accent)}.nav-record{background:var(--accent);color:#fff;justify-content:center}.nav-record .nav-icon{font-weight:800}.nav-record:hover{filter:brightness(.96);border-color:var(--accent)}.nav-record.active{background:var(--accent);color:#fff}.side-note{font-size:12px;color:var(--muted);padding:12px 10px 8px;border-top:1px solid var(--line);margin-top:8px}.main{min-width:0}.page-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:2px 0 18px}.page-head h2{font-size:25px;letter-spacing:-.7px;margin:0}.page-head p{margin:4px 0 0;color:var(--muted)}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:18px}.stat{padding:17px}.stat .label{font-size:12px;color:var(--muted);font-weight:600}.stat .value{font-size:25px;font-weight:750;letter-spacing:-.7px;margin:5px 0}.stat .hint{font-size:12px;color:var(--muted)}.panel{padding:18px;margin-bottom:16px}.panel-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.panel-title h3{font-size:16px;margin:0}.tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.tools input{flex:1;min-width:180px}.field{display:flex;flex-direction:column;gap:5px;min-width:0}.field label{font-size:12px;font-weight:700;color:#566052}.field input,.field select,.field textarea,.tools input,.tools select{width:100%;border:1px solid #dce2d8;border-radius:9px;background:#fff;padding:10px 11px;color:var(--ink);outline:none}.field input:focus,.field select:focus,.tools input:focus{border-color:#6e9677;box-shadow:0 0 0 3px #dceade}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.form-grid .wide{grid-column:1/-1}.form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.help{font-size:12px;color:var(--muted)}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;white-space:nowrap}th{text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:11px 10px;border-bottom:1px solid var(--line)}td{padding:13px 10px;border-bottom:1px solid #edf0ea;font-size:13px}tbody tr:last-child td{border-bottom:0}.product-name{font-weight:700}.sub{color:var(--muted);font-size:12px;margin-top:3px}.pill{display:inline-block;border-radius:100px;background:#edf2eb;color:#466148;padding:3px 8px;font-size:11px;margin:2px 3px 2px 0}.pill.gray{background:#f0f1ee;color:#687065}.price{font-weight:750;font-variant-numeric:tabular-nums}.positive{color:var(--red)}.negative{color:#2d7650}.empty{text-align:center;padding:38px 14px;color:var(--muted)}.empty strong{display:block;color:var(--ink);font-size:15px;margin-bottom:4px}.inline-actions{display:flex;gap:5px}.notice{padding:11px 13px;background:#f0f5ed;border:1px solid #dbe7d8;border-radius:10px;color:#38533b;font-size:13px;margin-bottom:14px}.notice.warn{background:#fff6e8;border-color:#f0dfbe;color:#765019}.hidden{display:none!important}.manage-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.manage-row:last-child{border-bottom:0}.manage-form{display:flex;gap:8px;margin-bottom:14px}.manage-form input{flex:1;min-width:0;border:1px solid #dce2d8;border-radius:9px;padding:10px}.history-chart{width:100%;height:220px;display:block}.chart-label{font-size:11px;fill:#778073}.chart-line{fill:none;stroke:#315c43;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.chart-dot{fill:#315c43}.shopping-item{display:grid;grid-template-columns:auto minmax(0,1fr) 100px;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.shopping-item:last-child{border-bottom:0}.shopping-item input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent)}.shopping-item .qty{width:100%;border:1px solid #dce2d8;border-radius:8px;padding:8px}.recommendation{border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}.recommendation.best{border-color:#9dbba0;background:#f6faf5}.recommendation-head{display:flex;justify-content:space-between;align-items:start;gap:12px}.recommendation-total{font-size:23px;font-weight:800;white-space:nowrap}.compare-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}.compare-card{border:1px solid var(--line);border-radius:12px;padding:13px}.compare-card .store{font-weight:700}.compare-card .big{font-size:21px;font-weight:750;margin:6px 0}.compare-card .smalltext{font-size:12px;color:var(--muted)}.footer{color:var(--muted);font-size:11px;text-align:center;padding:16px}.modal-backdrop{position:fixed;inset:0;background:#14201466;display:grid;place-items:center;padding:18px;z-index:10}.modal{background:#fff;border-radius:16px;padding:22px;width:min(560px,100%);max-height:90vh;overflow:auto;box-shadow:0 20px 70px #0002}.modal h3{margin:0 0 16px}.modal-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.modal-top h3{margin:0}.file-label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:10px;padding:9px 13px;font-weight:600;background:#fff;cursor:pointer}#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#20271f;color:#fff;padding:11px 16px;border-radius:10px;box-shadow:var(--shadow);z-index:20;display:none;max-width:90vw}
+@media(max-width:800px){.app{padding:14px;padding-bottom:92px}.layout{grid-template-columns:1fr}.sidebar{position:fixed;z-index:8;left:0;right:0;bottom:0;top:auto;height:calc(66px + env(safe-area-inset-bottom));padding:5px 4px calc(5px + env(safe-area-inset-bottom));border-radius:14px 14px 0 0;display:flex;align-items:stretch;justify-content:space-around;gap:2px;overflow:visible;border-bottom:0;box-shadow:0 -5px 24px #20302012}.nav{white-space:normal;min-width:0;flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2px;width:auto;padding:5px 2px;border-radius:9px;font-size:10px;line-height:1.1;text-align:center}.nav-icon{font-size:20px;line-height:1.15}.nav-label{display:none}.nav.active .nav-label{display:block}.nav.active{flex:1.55}.nav-record{color:var(--accent)}.nav-record .nav-icon{font-size:23px}.side-note{display:none}.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:1/-1}.top{align-items:flex-start;flex-direction:row}.page-head{align-items:flex-start}.form-grid{grid-template-columns:1fr}.form-grid .wide{grid-column:auto}}
+@media(max-width:430px){.stats{grid-template-columns:1fr 1fr}.stat{padding:12px}.stat .value{font-size:21px}.panel{padding:13px}.brand p{font-size:12px}.brand h1{font-size:19px}.logo{width:38px;height:38px}.sidebar .nav-label{font-size:9px}.sidebar .nav-icon{font-size:19px}}
+.top{display:none!important}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="brand"><div class="logo">⌁</div><div><h1><span data-i18n="App.pantryPrice"></span></h1><p><span data-i18n="Statistics.yourGroceryPricesRemembered"></span></p></div></div>
+
+</header>
+<div class="layout">
+  <aside class="sidebar" aria-label="Main navigation" data-i18n-aria-label="App.mainNavigation">
+    <button class="nav" data-page="overview" title="Statistics" data-i18n-title="App.statistics"><span class="nav-icon">▥</span><span class="nav-label"><span data-i18n="App.statistics"></span></span></button>
+    <button class="nav active" data-page="products" title="Products" data-i18n-title="Products.products"><span class="nav-icon">▦</span><span class="nav-label"><span data-i18n="Products.products"></span></span></button>
+    <button class="nav" data-page="compare" title="Compare prices" data-i18n-title="PriceComparison.comparePrices"><span class="nav-icon">⇄</span><span class="nav-label"><span data-i18n="PriceComparison.comparePrices"></span></span></button>
+    <button class="nav" data-page="quickbuy" title="Shopping list" data-i18n-title="ShoppingList.shoppingList"><span class="nav-icon">🛒</span><span class="nav-label"><span data-i18n="ShoppingList.shoppingList"></span></span></button>
+    <button class="nav" data-page="history" title="Price history" data-i18n-title="PriceHistory.priceHistory"><span class="nav-icon">↗</span><span class="nav-label"><span data-i18n="PriceHistory.priceHistory"></span></span></button>
+    <button class="nav" data-page="settings" title="Settings" data-i18n-title="Settings.settings"><span class="nav-icon">⚙</span><span class="nav-label"><span data-i18n="Settings.settings"></span></span></button>
+    <button class="nav nav-record" data-action="add-price" title="Record price" data-i18n-title="App.recordPrice"><span class="nav-icon">＋</span><span class="nav-label"><span data-i18n="App.recordPrice"></span></span></button>
+    <div class="side-note"><span data-i18n="Settings.storedLocallyInThisBrowserOnThisDeviceExportBackupsRegularly"></span></div>
+  </aside>
+  <main class="main">
+    <section id="page-overview" class="page hidden">
+      <div class="page-head"><div><h2><span data-i18n="Statistics.overview"></span></h2><p><span data-i18n="App.aClearViewOfWhatYourGroceriesCostOverTime"></span></p></div></div>
+      <div class="stats">
+        <div class="stat"><div class="label"><span data-i18n="Products.productsTracked"></span></div><div class="value" id="statProducts">0</div><div class="hint"><span data-i18n="Products.distinctProductEntries"></span></div></div>
+        <div class="stat"><div class="label"><span data-i18n="App.priceRecords"></span></div><div class="value" id="statRecords">0</div><div class="hint"><span data-i18n="PriceHistory.everySavedObservationIsKept"></span></div></div>
+        <div class="stat"><div class="label"><span data-i18n="Statistics.latestPriceChanges"></span></div><div class="value" id="statChanges">0</div><div class="hint"><span data-i18n="Products.productsWithMultiplePrices"></span></div></div>
+      </div>
+      <div class="panel"><div class="panel-title"><h3><span data-i18n="Statistics.recentPriceUpdates"></span></h3><button class="small" data-goto="history"><span data-i18n="PriceHistory.viewHistory"></span></button></div><div id="recentTable"></div></div>
+      <div class="panel"><div class="panel-title"><h3><span data-i18n="Products.productsToWatch"></span></h3><button class="small" data-goto="products"><span data-i18n="Products.allProducts"></span></button></div><div id="watchTable"></div></div>
+    </section>
+    <section id="page-products" class="page">
+      <div class="page-head"><div><h2><span data-i18n="Products.products"></span></h2><p><span data-i18n="Products.manageYourCatalogueAndRecordNewPricesWheneverYouCheckAStore"></span></p></div><button class="primary" id="addProductBtn"><span data-i18n="Products.addProduct"></span></button></div>
+      <div class="panel"><div class="tools"><input id="productSearch" placeholder="Search products, brands or tags…" data-i18n-placeholder="Products.searchProductsBrandsOrTags"><select id="productStoreFilter"><option value=""><span data-i18n="PriceComparison.allSupermarkets"></span></option></select><select id="productTagFilter"><option value=""><span data-i18n="Products.allTags"></span></option></select></div><div id="productsTable"></div></div>
+    </section>
+    <section id="page-compare" class="page hidden">
+      <div class="page-head"><div><h2><span data-i18n="PriceComparison.compareSupermarkets"></span></h2><p><span data-i18n="Products.chooseAProductToSeeTheLatestRecordedPriceAtEachSupermarketRankedByComp"></span></p></div><button class="primary" id="addComparePriceBtn"><span data-i18n="App.recordPrice2"></span></button></div>
+      <div class="panel">
+        <div class="form-grid" style="margin-bottom:14px">
+          <div class="field"><label for="compareProduct"><span data-i18n="Products.product"></span></label><select id="compareProduct"></select></div>
+          <div class="field"><label for="compareSort"><span data-i18n="PriceComparison.rankSupermarketsBy"></span></label><select id="compareSort"><option value="unit"><span data-i18n="PriceComparison.lowestUnitPriceLKgUnit"></span></option><option value="total"><span data-i18n="PriceComparison.lowestTotalPackPrice"></span></option></select></div>
+        </div>
+        <div class="notice"><span data-i18n="PriceComparison.forAFairComparisonTheAppConvertsPackSizesToACommonBaseUnitExample150Fo"></span></div>
+        <div id="compareSummary"></div>
+      </div>
+      <div class="panel"><div class="panel-title"><h3><span data-i18n="PriceComparison.latestPriceAtEachSupermarket"></span></h3><span class="help"><span data-i18n="PriceHistory.basedOnYourSavedObservations"></span></span></div><div id="compareTable"></div></div>
+      <div class="panel"><div class="panel-title"><h3><span data-i18n="PriceHistory.priceHistoryBySupermarket"></span></h3><span class="help"><span data-i18n="PriceComparison.oneLinePerSupermarket"></span></span></div><div id="compareChart"></div></div>
+      <div class="panel"><div class="panel-title"><h3><span data-i18n="PriceComparison.howTheCalculationWorks"></span></h3></div>
+        <p style="margin:0 0 8px"><strong><span data-i18n="PriceComparison.pricePerStandardUnitTotalPackPriceTotalQuantityInStandardUnits"></span></strong></p>
+        <p class="help" style="margin:0"><span data-i18n="PriceComparison.litresConvertMillilitresToLitresByDividingBy1000KilogramsConvertGramsT"></span></p>
+      </div>
+    </section>
+    <section id="page-quickbuy" class="page hidden">
+      <div class="page-head"><div><h2><span data-i18n="ShoppingList.shoppingList"></span></h2><p><span data-i18n="ShoppingList.What.description"></span></p></div><button class="small" id="clearShoppingList"><span data-i18n="ShoppingList.clearList"></span></button></div>
+      <div class="panel"><div class="panel-title"><h3><span data-i18n="ShoppingList.What.title"></span></h3><span class="help" id="shoppingSelectedCount"><span data-i18n="App.text0Selected"></span></span></div>
+        <div class="tools"><input id="shoppingSearch" placeholder="Search products, brands or tags…" data-i18n-placeholder="Products.searchProductsBrandsOrTags"><button id="selectVisibleProducts"><span data-i18n="ShoppingList.selectVisible"></span></button><button id="deselectVisibleProducts"><span data-i18n="ShoppingList.deselectVisible"></span></button></div><div id="shoppingProducts"></div>
+      </div>
+      <div class="panel"><div class="panel-title"><h3><span data-i18n="ShoppingList.Where.title"></span></h3><span class="help"><span data-i18n="ShoppingList.rankedByTotalBasketPrice"></span></span></div>
+        <div class="notice"><span data-i18n="ShoppingList.Where.description"></span></div><div id="shoppingRecommendations"></div>
+      </div>
+    </section>
+    <section id="page-history" class="page hidden">
+      <div class="page-head"><div><h2><span data-i18n="PriceHistory.priceHistory"></span></h2><p><span data-i18n="PriceHistory.eachEntryIsAnObservationSavingANewPriceNeverOverwritesAnOlderOne"></span></p></div><button class="primary" id="addPriceBtn"><span data-i18n="App.recordPrice2"></span></button></div>
+      <div class="panel"><div class="tools"><input id="historySearch" placeholder="Search product…" data-i18n-placeholder="Products.searchProduct"><select id="historyStoreFilter"><option value=""><span data-i18n="PriceComparison.allSupermarkets"></span></option></select><select id="historySort"><option value="date-desc"><span data-i18n="App.newestFirst"></span></option><option value="date-asc"><span data-i18n="App.oldestFirst"></span></option><option value="price-asc"><span data-i18n="App.priceLowToHigh"></span></option><option value="price-desc"><span data-i18n="App.priceHighToLow"></span></option></select></div><div id="historyTable"></div></div>
+    </section>
+    <section id="page-settings" class="page hidden">
+      <div class="page-head"><div><h2><span data-i18n="Settings.settings"></span></h2><p><span data-i18n="App.manageTheListsUsedThroughoutYourTracker"></span></p></div></div>
+      <div class="panel"><div class="panel-title"><h3 data-i18n="Settings.language"><span data-i18n="Settings.language"></span></h3></div><div class="field" style="max-width:320px"><label for="languageSelect" data-i18n="Settings.appLanguage"><span data-i18n="Settings.appLanguage"></span></label><select id="languageSelect" aria-label="App language" data-i18n-aria-label="Settings.appLanguage"><option value="en"><span data-i18n="App.english"></span></option></select><p class="help" data-i18n="Settings.chooseTheLanguageUsedForTheAppInterface"><span data-i18n="Settings.chooseTheLanguageUsedForTheAppInterface"></span></p></div></div>
+      <div class="panel"><div class="panel-title"><h3><span data-i18n="PriceComparison.supermarkets"></span></h3></div><form id="storeForm" class="manage-form"><input id="storeName" placeholder="e.g. Lidl" data-i18n-placeholder="App.eGLidl" required maxlength="80"><button class="primary"><span data-i18n="PriceComparison.addSupermarket"></span></button></form><div id="storeList"></div></div>
+      <div class="panel"><div class="panel-title"><h3><span data-i18n="Products.tags"></span></h3></div><form id="tagForm" class="manage-form"><input id="tagName" placeholder="e.g. Fruit, Bottled, Organic" data-i18n-placeholder="App.eGFruitBottledOrganic" required maxlength="50"><button class="primary"><span data-i18n="Products.addTag"></span></button></form><div id="tagList"></div></div>
+      <div class="panel"><div class="panel-title"><h3><span data-i18n="Settings.dataAndPrivacy"></span></h3></div><p class="help"><span data-i18n="Products.yourRecordsAreStoredInThisBrowserUsingIndexedDBTheyAreNotSentToAServer"></span></p><div class="actions" style="margin-top:14px"><button id="exportBtn2"><span data-i18n="Settings.exportJSONBackup"></span></button><label class="file-label"><span data-i18n="Settings.importJSONBackup"></span><input id="importFile2" type="file" accept=".json,application/json" hidden></label><button id="resetDemo" class="danger"><span data-i18n="Settings.clearAllData"></span></button></div></div>
+    </section>
+  </main>
+</div>
+<div class="footer"><span data-i18n="PriceHistory.pantryPriceLocalFirstPricesAreRecordedManuallyCurrencyEUR"></span></div>
+</div>
+<div id="modalRoot"></div><div id="toast" role="status"></div>
+<script>
+// Localization dictionary. All interface strings are defined here; add future languages
+// by adding another object with the same keys. The selected language is controlled by Settings.
+const translations = {
+  en: {
+    "App.aClearViewOfWhatYourGroceriesCostOverTime": "A clear view of what your groceries cost over time.",
+    "App.archived": " (archived)",
+    "App.eGFruitBottledOrganic": "e.g. Fruit, Bottled, Organic",
+    "App.eGInnocent": "e.g. Innocent",
+    "App.eGLidl": "e.g. Lidl",
+    "App.eGLoyaltyCardOfferShelfPrice": "e.g. loyalty-card offer, shelf price",
+    "App.eGOrangeJuice": "e.g. Orange juice",
+    "App.english": "English",
+    "App.fieldWide": "field wide",
+    "App.g": "g",
+    "App.latestPrice": "Latest price",
+    "App.listUpdated": "List updated",
+    "App.mainNavigation": "Main navigation",
+    "App.manageTheListsUsedThroughoutYourTracker": "Manage the lists used throughout your tracker.",
+    "App.missingRecordID": "Missing record ID",
+    "App.ml": "ml",
+    "App.newName": "New name:",
+    "App.newestFirst": "Newest first",
+    "App.notesOptional": "Notes (optional)",
+    "App.noticeWarn": "notice warn",
+    "App.oldestFirst": "Oldest first",
+    "App.packQuantity": "Pack quantity",
+    "App.packQuantity2": "Pack / quantity",
+    "App.pantryPrice": "Pantry Price",
+    "App.pantryPriceGroceryTracker": "Pantry Price â Grocery Tracker",
+    "App.priceHighToLow": "Price: high to low",
+    "App.priceLowToHigh": "Price: low to high",
+    "App.pricePerPack": "Price per pack",
+    "App.priceRecords": "Price records",
+    "App.recordPrice": "Record price",
+    "App.recordPrice2": "＋ Record price",
+    "App.recordPrice3": "ï¼ Record price",
+    "App.statistics": "Statistics",
+    "App.t120000": "T12:00:00",
+    "App.text0Selected": "0 selected",
+    "App.totalPrice": "Total price",
+    "App.unit": "unit",
+    "App.useStrict": "use strict",
+    "App.variantSizeDetailsEtc": "Variant, size details, etc.",
+    "Common.correctEntry": "Correct entry",
+    "Common.couldNotSavePleaseCheckTheFieldsAndTryAgain": "Could not save. Please check the fields and try again.",
+    "Common.priceRecordDeleted": "Price record deleted",
+    "PriceComparison.addSupermarket": "Add supermarket",
+    "PriceComparison.allSupermarkets": "All supermarkets",
+    "PriceComparison.comparePrices": "Compare prices",
+    "PriceComparison.compareSupermarkets": "Compare supermarkets",
+    "PriceComparison.forAFairComparisonTheAppConvertsPackSizesToACommonBaseUnitExample150Fo": "For a fair comparison, the app converts pack sizes to a common base unit. Example: €1.50 for 750 ml → €1.50 ÷ 0.75 L = €2.00/L. Different pack sizes can therefore be compared fairly.",
+    "PriceComparison.howTheCalculationWorks": "How the calculation works",
+    "PriceComparison.latestPriceAtEachSupermarket": "Latest price at each supermarket",
+    "PriceComparison.litresConvertMillilitresToLitresByDividingBy1000KilogramsConvertGramsT": "Litres: convert millilitres to litres by dividing by 1,000. Kilograms: convert grams to kilograms by dividing by 1,000. Then divide the pack price by pack count × quantity per item. Example: 3 × 750 ml bottles at €4.50 → 3 × 0.75 L = 2.25 L → €4.50 ÷ 2.25 L = €2.00/L.",
+    "PriceComparison.lowestTotalPackPrice": "Lowest total pack price",
+    "PriceComparison.lowestUnitPriceLKgUnit": "Lowest unit price (€/L, €/kg, €/unit)",
+    "PriceComparison.lowestUnitPriceLKgUnit2": "Lowest unit price (â¬/L, â¬/kg, â¬/unit)",
+    "PriceComparison.noPricesToCompare": "No prices to compare",
+    "PriceComparison.normalizedUnitPrice": "Normalized unit price",
+    "PriceComparison.oneLinePerSupermarket": "One line per supermarket",
+    "PriceComparison.pricePerStandardUnitTotalPackPriceTotalQuantityInStandardUnits": "Price per standard unit = total pack price ÷ total quantity in standard units.",
+    "PriceComparison.rankSupermarketsBy": "Rank supermarkets by",
+    "PriceComparison.supermarkets": "Supermarkets",
+    "PriceComparison.totalPackPrice": "Total pack price",
+    "PriceComparison.unitPrice": "Unit price",
+    "PriceHistory.basedOnYourSavedObservations": "Based on your saved observations",
+    "PriceHistory.eachEntryIsAnObservationSavingANewPriceNeverOverwritesAnOlderOne": "Each entry is an observation. Saving a new price never overwrites an older one.",
+    "PriceHistory.everySavedObservationIsKept": "Every saved observation is kept",
+    "PriceHistory.lastRecorded": "Last recorded",
+    "PriceHistory.pantryPriceLocalFirstPricesAreRecordedManuallyCurrencyEUR": "Pantry Price · Local-first · Prices are recorded manually · Currency: EUR (€)",
+    "PriceHistory.pantryPriceLocalFirstPricesAreRecordedManuallyCurrencyEUR2": "Pantry Price Â· Local-first Â· Prices are recorded manually Â· Currency: EUR (â¬)",
+    "PriceHistory.priceHistory": "Price history",
+    "PriceHistory.priceHistoryBySupermarket": "Price history by supermarket",
+    "PriceHistory.priceHistoryChart": "Price history chart",
+    "PriceHistory.priceObservationSaved": "Price observation saved",
+    "PriceHistory.supermarketLatestObservation": "Supermarket / latest observation",
+    "PriceHistory.viewHistory": "View history",
+    "Products.addProduct": "＋ Add product",
+    "Products.addProduct2": "ï¼ Add product",
+    "Products.addTag": "Add tag",
+    "Products.addTagsInSettings": "Add tags in Settings.",
+    "Products.allProducts": "All products",
+    "Products.allTags": "All tags",
+    "Products.brandOptional": "Brand (optional)",
+    "Products.chooseAProductToSeeTheLatestRecordedPriceAtEachSupermarketRankedByComp": "Choose a product to see the latest recorded price at each supermarket, ranked by comparable unit price.",
+    "Products.deletedProduct": "Deleted product",
+    "Products.distinctProductEntries": "Distinct product entries",
+    "Products.manageYourCatalogueAndRecordNewPricesWheneverYouCheckAStore": "Manage your catalogue and record new prices whenever you check a store.",
+    "Products.product": "Product",
+    "Products.productAdded": "Product added",
+    "Products.productArchived": "Product archived",
+    "Products.productDeleted": "Product deleted",
+    "Products.productName": "Product name *",
+    "Products.productUpdated": "Product updated",
+    "Products.products": "Products",
+    "Products.productsToWatch": "Products to watch",
+    "Products.productsTracked": "Products tracked",
+    "Products.productsWithMultiplePrices": "Products with multiple prices",
+    "Products.saveProduct": "Save product",
+    "Products.searchProduct": "Search product…",
+    "Products.searchProduct2": "Search productâ¦",
+    "Products.searchProductsBrandsOrTags": "Search products, brands or tags…",
+    "Products.searchProductsBrandsOrTags2": "Search products, brands or tagsâ¦",
+    "Products.tags": "Tags",
+    "Products.yourRecordsAreStoredInThisBrowserUsingIndexedDBTheyAreNotSentToAServer": "Your records are stored in this browser using IndexedDB. They are not sent to a server. Clearing browser data can erase them, so export a JSON backup regularly. The backup contains products, price records, supermarkets and tags.",
+    "Settings.appLanguage": "App language",
+    "Settings.backupExported": "Backup exported",
+    "Settings.backupImported": "Backup imported",
+    "Settings.chooseTheLanguageUsedForTheAppInterface": "Choose the language used for the app interface.",
+    "Settings.clearAllData": "Clear all data",
+    "Settings.couldNotImportThisBackupPleaseChooseAPantryPriceJSONBackup": "Could not import this backup. Please choose a Pantry Price JSON backup.",
+    "Settings.dataAndPrivacy": "Data and privacy",
+    "Settings.exportJSONBackup": "Export JSON backup",
+    "Settings.importJSONBackup": "Import JSON backup",
+    "Settings.invalidBackup": "Invalid backup",
+    "Settings.language": "Language",
+    "Settings.settings": "Settings",
+    "Settings.storedLocallyInThisBrowserOnThisDeviceExportBackupsRegularly": "Stored locally in this browser on this device. Export backups regularly.",
+    "ShoppingList.What.description": "Select what you need today. We'll estimate the total basket cost at each supermarket.",
+    "ShoppingList.What.title": "What do you need to buy?",
+    "ShoppingList.Where.completeStoreDescription": "This supermarket has a saved price for every selected product. Totals are estimates based on your latest records.",
+    "ShoppingList.Where.description": "Totals use each supermarket's latest saved price for each selected product, multiplied by the number of packs you need. Stores without a saved price for a selected product are marked incomplete and are not treated as full-basket winners.",
+    "ShoppingList.Where.incompleteStoreDescription": "These totals exclude products without a saved price at that store, so they are not directly comparable with full-basket totals.",
+    "ShoppingList.Where.title": "Where should you shop?",
+    "ShoppingList.clearList": "Clear list",
+    "ShoppingList.deselectVisible": "Deselect visible",
+    "ShoppingList.incompletePriceCoverage": "Incomplete price coverage",
+    "ShoppingList.rankedByTotalBasketPrice": "Ranked by total basket price",
+    "ShoppingList.recordPricesForSelectedProductsAtOneOrMoreSupermarkets": "Record prices for selected products at one or more supermarkets.",
+    "ShoppingList.selectProductsAboveToCompareTheEstimatedTotalBasketCost": "Select products above to compare the estimated total basket cost.",
+    "ShoppingList.selectVisible": "Select visible",
+    "ShoppingList.shoppingList": "Shopping list",
+    "ShoppingList.storesWithPricesForEveryItem": "Stores with prices for every item",
+    "ShoppingList.viewBasketBreakdown": "View basket breakdown",
+    "ShoppingList.yourShoppingListIsEmpty": "Your shopping list is empty",
+    "Statistics.latestPriceChanges": "Latest price changes",
+    "Statistics.overview": "Overview",
+    "Statistics.recentPriceUpdates": "Recent price updates",
+    "Statistics.yourGroceryPricesRemembered": "Your grocery prices, remembered.",
+    "UI.Empty.noPriceRecords": "No price records yet",
+    "UI.Empty.recordPriceToStartHistory": "Record a price to start building your history.",
+    "UI.Actions.recordFirstPrice": "Record first price",
+    "UI.Table.product": "Product",
+    "UI.Table.date": "Date",
+    "UI.Table.supermarket": "Supermarket",
+    "UI.Table.packQuantity": "Pack / quantity",
+    "UI.Table.price": "Price",
+    "UI.Table.unitPrice": "Unit price",
+    "UI.Table.change": "Change",
+    "UI.Table.latestPrice": "Latest price",
+    "UI.Table.lastRecorded": "Last recorded",
+    "UI.Table.history": "History",
+    "UI.Table.action": "Action",
+    "UI.Table.totalPackPrice": "Total pack price",
+    "UI.Table.quantity": "Quantity",
+    "UI.Table.rank": "Rank",
+    "UI.Table.normalizedUnitPrice": "Normalized unit price",
+    "UI.Table.supermarketLatestObservation": "Supermarket / latest observation",
+    "UI.Status.firstRecord": "First record",
+    "UI.Status.noTags": "No tags",
+    "UI.Status.promotion": "Promotion",
+    "UI.Status.correctEntry": "Correct entry",
+    "UI.Status.correctThisPriceEntry": "Correct this price entry",
+    "UI.Status.deletedProduct": "Deleted product",
+    "UI.Status.archivedStore": "Archived store",
+    "UI.Status.cheapest": "Cheapest",
+    "UI.Status.notComparable": "Not comparable",
+    "UI.Status.unknownStore": "Unknown store",
+    "UI.Empty.noProductsToShow": "No products to show",
+    "UI.Empty.addProductAndRecordPrice": "Add a product and record its price to see it here.",
+    "UI.Empty.noMatchingProducts": "No matching products",
+    "UI.Empty.changeSearchFilters": "Add a product or change your search filters.",
+    "UI.Actions.addProduct": "Add product",
+    "UI.Actions.price": "＋ Price",
+    "UI.Actions.edit": "Edit",
+    "UI.Empty.noProductsFound": "No products found",
+    "UI.Empty.adjustSearch": "Add products first, or adjust your search.",
+    "UI.Empty.shoppingListEmpty": "Your shopping list is empty",
+    "UI.Empty.selectProductsToCompare": "Select products above to compare the estimated total basket cost.",
+    "UI.Empty.noPricesToCompare": "No prices to compare",
+    "UI.Empty.recordPricesForSelected": "Record prices for selected products at one or more supermarkets.",
+    "UI.Shopping.viewBasketBreakdown": "View basket breakdown",
+    "UI.Shopping.storesEveryItem": "Stores with prices for every item",
+    "UI.Shopping.lowestTotal": "Lowest total",
+    "UI.Shopping.incompleteCoverage": "Incomplete price coverage",
+    "UI.Shopping.incompleteDescription": "These totals exclude products without a saved price at that store, so they are not directly comparable with full-basket totals.",
+    "UI.Shopping.partialTotal": "partial total",
+    "UI.Empty.chooseProduct": "Choose a product",
+    "UI.Empty.selectProductHistory": "Select a product to see its price history by supermarket.",
+    "UI.Empty.noPriceHistory": "No price history yet",
+    "UI.Empty.recordPricesCompareTrends": "Record prices at different supermarkets to compare their trends.",
+    "UI.Empty.addProductCompare": "Add a product to compare prices across supermarkets.",
+    "UI.Empty.noPricesRecorded": "No prices recorded yet",
+    "UI.Compare.bestTotalPackPrice": "total pack price",
+    "UI.Compare.comparableUnitPrice": "comparable unit price",
+    "UI.Settings.rename": "Rename",
+    "UI.Settings.remove": "Remove",
+    "UI.Settings.noSupermarkets": "No supermarkets yet",
+    "UI.Settings.noTags": "No tags yet",
+    "UI.Settings.addFieldAbove": "Add one using the field above.",
+    "UI.Settings.newName": "New name:",
+    "UI.Settings.renamed": "Renamed",
+    "UI.Settings.listUpdated": "List updated",
+    "UI.Messages.couldNotSave": "Could not save. Please check the fields and try again.",
+    "UI.Messages.priceRecordDeleted": "Price record deleted",
+    "UI.Messages.productArchived": "Product archived",
+    "UI.Messages.productDeleted": "Product deleted",
+    "UI.Messages.allLocalDataCleared": "All local data cleared",
+    "UI.Messages.supermarketAdded": "Supermarket added",
+    "UI.Messages.tagAdded": "Tag added",
+    "UI.Messages.supermarketExists": "That supermarket already exists",
+    "UI.Messages.tagExists": "That tag already exists",
+    "UI.Messages.backupImported": "Backup imported",
+    "Products.Form.editTitle": "Edit product",
+    "Products.Form.addTitle": "Add product",
+    "Products.Form.nameLabel": "Product name *",
+    "Products.Form.namePlaceholder": "e.g. Orange juice",
+    "Products.Form.brandLabel": "Brand (optional)",
+    "Products.Form.brandPlaceholder": "e.g. Innocent",
+    "Products.Form.tagsLabel": "Tags",
+    "Products.Form.noTagsHint": "Add tags in Settings.",
+    "Products.Form.notesLabel": "Notes (optional)",
+    "Products.Form.notesPlaceholder": "Variant, size details, etc.",
+    "Products.Form.saveButton": "Save product",
+    "Products.Messages.updated": "Product updated",
+    "Products.Messages.added": "Product added",
+    "Common.cancel": "Cancel"
+  }
+};
+let language = "en";
+try { language = localStorage.getItem("pantry-price-language") || "en"; } catch {}
+if (!translations[language]) language = "en";
+function t(key) {
+  const text = String(key ?? "");
+  return translations[language]?.[text] ?? translations.en?.[text] ?? text;
+}
+function keyPathValue(dictionary, path) {
+  if (!dictionary) return undefined;
+  return path.split(".").reduce((value, part) => value && value[part], dictionary);
+}
+const englishToKey = Object.fromEntries(Object.entries(translations.en).map(([key, value]) => [value, key]));
+function translateEnglishText(text) {
+  const key = englishToKey[text];
+  return key ? t(key) : text;
+}
+function applyLanguage() {
+  document.title = t(englishToKey["Pantry Price — Grocery Tracker"] || "App.pantryPriceGroceryTracker");
+  const selector = document.getElementById("languageSelect");
+  if (selector) selector.value = language;
+  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
+  for (const [attr, dataAttr] of [["placeholder","data-i18n-placeholder"],["title","data-i18n-title"],["aria-label","data-i18n-aria-label"]]) {
+    document.querySelectorAll("["+dataAttr+"]").forEach(el => el.setAttribute(attr, t(el.getAttribute(dataAttr))));
+  }
+  localizeNode(document.body);
+}
+// Also localize generated interface content. It uses the same fixed English dictionary;
+// unknown text is left unchanged and is never added to the dictionary at runtime.
+const localizationTextKeys = new WeakMap();
+const localizationAttrKeys = new WeakMap();
+function localizeNode(root) {
+  if (!root) return;
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  let node;
+  while ((node = walker.nextNode())) {
+    if (!node.nodeValue.trim() || node.parentElement?.closest("script,style,textarea,[data-user-content],[data-i18n]")) continue;
+    const original = localizationTextKeys.get(node) ?? node.nodeValue;
+    localizationTextKeys.set(node, original);
+    const translated = translateEnglishText(original);
+    if (node.nodeValue !== translated) node.nodeValue = translated;
+  }
+  const elements = root.nodeType === Node.ELEMENT_NODE ? [root, ...root.querySelectorAll("*")] : [...root.querySelectorAll("*")];
+  for (const el of elements) {
+    for (const [attr,dataAttr] of [["placeholder","data-i18n-placeholder"],["title","data-i18n-title"],["aria-label","data-i18n-aria-label"]]) {
+      if (el.hasAttribute(dataAttr)) el.setAttribute(attr,t(el.getAttribute(dataAttr)));
+    }
+  }
+}
+(() => {
+"use strict";
+const DB_NAME="pantry-price-db", DB_VERSION=1, CURRENCY="EUR";
+let db, state={products:[],stores:[],tags:[],records:[]}, currentPage="products", toastTimer;
+let shoppingSelection=loadShoppingSelection();
+function loadShoppingSelection(){try{return JSON.parse(localStorage.getItem("pantry-price-shopping-list")||"{}")}catch{return {}}}
+function saveShoppingSelection(){try{localStorage.setItem("pantry-price-shopping-list",JSON.stringify(shoppingSelection))}catch{}}
+
+const $=id=>document.getElementById(id);
+const money=n=>new Intl.NumberFormat("en-IE",{style:"currency",currency:CURRENCY}).format(Number(n)||0);
+const dateFmt=s=>{if(!s)return "—";const d=new Date(s+"T12:00:00");return Number.isNaN(+d)?s:d.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})};
+const today=()=>new Date().toISOString().slice(0,10);
+const uid=()=>crypto.randomUUID?crypto.randomUUID():"id-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const getStore=id=>state.stores.find(x=>x.id===id);
+const getProduct=id=>state.products.find(x=>x.id===id);
+const getTag=id=>state.tags.find(x=>x.id===id);
+const unitName=u=>({L:"L",ml:"ml",kg:"kg",g:"g",unit:"unit"}[u]||u);
+function openDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(DB_NAME,DB_VERSION);req.onupgradeneeded=()=>{const d=req.result;for(const s of ["products","stores","tags","records"])if(!d.objectStoreNames.contains(s))d.createObjectStore(s,{keyPath:"id"});};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
+function all(store){return new Promise((resolve,reject)=>{const r=db.transaction(store,"readonly").objectStore(store).getAll();r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});}
+function put(store,obj){return new Promise((resolve,reject)=>{const tx=db.transaction(store,"readwrite");tx.objectStore(store).put(obj);tx.oncomplete=()=>resolve(obj);tx.onerror=()=>reject(tx.error);});}
+function del(store,id){return new Promise((resolve,reject)=>{const tx=db.transaction(store,"readwrite");tx.objectStore(store).delete(id);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});}
+async function load(){[state.products,state.stores,state.tags,state.records]=await Promise.all(["products","stores","tags","records"].map(all));}
+function toast(msg){$("toast").textContent=msg;$("toast").style.display="block";clearTimeout(toastTimer);toastTimer=setTimeout(()=>$("toast").style.display="none",2600);}
+function pricePerStandard(r){const p=Number(r.price),count=Number(r.packCount)||1,qty=Number(r.quantity)||1;let base=count*qty;if(r.unit==="ml")base/=1000;if(r.unit==="g")base/=1000;if(!base)return null;return p/base;}
+function standardUnit(unit){return ({L:"L",ml:"L",kg:"kg",g:"kg",unit:"unit"})[unit]||unit;}
+function unitPriceText(r){const n=pricePerStandard(r);return n==null?"—":money(n)+"/"+standardUnit(r.unit);}
+function sortedRecords(){return [...state.records].sort((a,b)=>(b.date||"").localeCompare(a.date||"")||(b.createdAt||"").localeCompare(a.createdAt||""));}
+function latestByProductStore(){const map=new Map();for(const r of sortedRecords()){const k=r.productId+"|"+r.storeId;if(!map.has(k))map.set(k,r);}return [...map.values()];}
+function deltaFor(r){const prev=state.records.filter(x=>x.productId===r.productId&&x.storeId===r.storeId&&x.id!==r.id&&(x.date<r.date||(x.date===r.date&&(x.createdAt||"")<(r.createdAt||"")))).sort((a,b)=>(b.date||"").localeCompare(a.date||"")||(b.createdAt||"").localeCompare(a.createdAt||""))[0];if(!prev)return null;const a=pricePerStandard(prev),b=pricePerStandard(r);if(a==null||!a)return null;return {amount:b-a,pct:(b-a)/a*100,prev};}
+function changeHTML(r){const d=deltaFor(r);if(!d)return '<span class="sub">First record</span>';const cls=d.amount>0?"positive":d.amount<0?"negative":"";const sign=d.amount>0?"+":"";return `<span class="${cls}">${sign}${money(d.amount)} (${sign}${d.pct.toFixed(1)}%)</span><div class="sub">vs ${dateFmt(d.prev.date)}</div>`;}
+function tagPills(ids=[]){return ids.map(id=>getTag(id)).filter(Boolean).map(t=>`<span class="pill">${esc(t.name)}</span>`).join("")||'<span class="sub">No tags</span>';}
+function renderSelects(){const options=(items,label)=>`<option value="">${label}</option>`+items.map(x=>`<option value="${esc(x.id)}">${esc(x.name)}</option>`).join("");for(const id of ["productStoreFilter","historyStoreFilter"])$(id).innerHTML=options(state.stores,"All supermarkets");$("productTagFilter").innerHTML=options(state.tags,"All tags");const old=$("compareProduct").value;$("compareProduct").innerHTML=options(state.products,"Choose a product");if(state.products.some(p=>p.id===old))$("compareProduct").value=old;else if(state.products.length)$("compareProduct").value=state.products[0].id;}
+function empty(title,desc,btn=""){return `<div class="empty"><strong>${title}</strong>${desc}${btn?`<div style="margin-top:12px">${btn}</div>`:""}</div>`;}
+function recordRows(records,includeProduct=true){if(!records.length)return empty(t("UI.Empty.noPriceRecords"),t("UI.Empty.recordPriceToStartHistory"),`<button class="primary" data-action="add-price">${t("UI.Actions.recordFirstPrice")}</button>`);return `<div class="table-wrap"><table><thead><tr>${includeProduct?"<th>Product</th>":""}<th>Date</th><th>Supermarket</th><th>Pack / quantity</th><th>Price</th><th>Unit price</th><th>Change</th><th></th></tr></thead><tbody>${records.map(r=>{const p=getProduct(r.productId),s=getStore(r.storeId);return `<tr>${includeProduct?`<td><div class="product-name">${esc(p?.name||"Deleted product")}</div><div class="sub">${esc(p?.brand||"")}</div></td>`:""}<td>${dateFmt(r.date)}</td><td>${esc(s?.name||"Archived store")}${r.promo?'<div class="sub">Promotion</div>':""}</td><td>${Number(r.packCount)||1} × ${Number(r.quantity)||1} ${esc(unitName(r.unit))}</td><td class="price">${money(r.price)}</td><td>${unitPriceText(r)}</td><td>${changeHTML(r)}</td><td><div class="inline-actions"><button class="small" data-action="edit-record" data-id="${r.id}" title="Correct this price entry">Correct entry</button><button class="small danger" data-action="delete-record" data-id="${r.id}" title="Delete record">×</button></div></td></tr>`}).join("")}</tbody></table></div>`;}
+function renderOverview(){const products=state.products,records=sortedRecords(),multi=new Set(records.filter(r=>deltaFor(r)).map(r=>r.productId));$("statProducts").textContent=products.length;$("statRecords").textContent=records.length;$("statChanges").textContent=multi.size;$("recentTable").innerHTML=recordRows(records.slice(0,6));const latest=latestByProductStore().sort((a,b)=>(b.date||"").localeCompare(a.date||"")).slice(0,8);$("watchTable").innerHTML=latest.length?`<div class="table-wrap"><table><thead><tr><th>Product</th><th>Supermarket</th><th>Latest price</th><th>Unit price</th><th>Recorded</th></tr></thead><tbody>${latest.map(r=>`<tr><td><div class="product-name">${esc(getProduct(r.productId)?.name||"Deleted product")}</div><div class="sub">${tagPills(getProduct(r.productId)?.tagIds||[])}</div></td><td>${esc(getStore(r.storeId)?.name||"Archived store")}</td><td class="price">${money(r.price)}</td><td>${unitPriceText(r)}</td><td>${dateFmt(r.date)}</td></tr>`).join("")}</tbody></table></div>`:empty(t("UI.Empty.noProductsToShow"),t("UI.Empty.addProductAndRecordPrice"));}
+function renderProducts(){const q=$("productSearch").value.trim().toLowerCase(),store=$("productStoreFilter").value,tag=$("productTagFilter").value;let items=state.products.filter(p=>(!q||(p.name+" "+(p.brand||"")+" "+(p.notes||"")+" "+(p.tagIds||[]).map(id=>getTag(id)?.name||"").join(" ")).toLowerCase().includes(q))&&(!tag||(p.tagIds||[]).includes(tag))&&(!store||state.records.some(r=>r.productId===p.id&&r.storeId===store)));if(!items.length){$("productsTable").innerHTML=empty(t("UI.Empty.noMatchingProducts"),t("UI.Empty.changeSearchFilters"),`<button class="primary" data-action="add-product">${t("UI.Actions.addProduct")}</button>`);return;}$("productsTable").innerHTML=`<div class="table-wrap"><table><thead><tr><th>Product</th><th>Tags</th><th>Latest price</th><th>Last recorded</th><th>History</th><th></th></tr></thead><tbody>${items.map(p=>{const rs=sortedRecords().filter(r=>r.productId===p.id),latest=rs[0];return `<tr><td><button class="product-link" style="border:0;padding:0;background:transparent;text-align:left;border-radius:0;color:var(--accent);font-weight:750" data-action="compare-product" data-id="${p.id}">${esc(p.name)}</button><div class="sub">${esc(p.brand||"")}${p.notes?" · "+esc(p.notes):""}</div></td><td>${tagPills(p.tagIds||[])}</td><td>${latest?`<span class="price">${money(latest.price)}</span><div class="sub">${esc(getStore(latest.storeId)?.name||"")}</div>`:"—"}</td><td>${latest?dateFmt(latest.date):"—"}</td><td>${rs.length} record${rs.length===1?"":"s"}</td><td><div class="inline-actions"><button class="small" data-action="add-price" data-id="${p.id}">＋ Price</button><button class="small" data-action="edit-product" data-id="${p.id}">Edit</button><button class="small danger" data-action="delete-product" data-id="${p.id}">×</button></div></td></tr>`}).join("")}</tbody></table></div>`;}
+function renderQuickBuy(){
+ const q=$("shoppingSearch").value.trim().toLowerCase();
+ const products=state.products.filter(p=>!p.archived&&(!q||(p.name+" "+(p.brand||"")+" "+(p.tagIds||[]).map(id=>getTag(id)?.name||"").join(" ")).toLowerCase().includes(q))).sort((a,b)=>a.name.localeCompare(b.name));
+ $("shoppingSelectedCount").textContent=Object.values(shoppingSelection).filter(x=>x&&x.selected).length+" selected";
+ $("shoppingProducts").innerHTML=products.length?products.map(p=>{const chosen=!!shoppingSelection[p.id]?.selected,qty=Math.max(1,Number(shoppingSelection[p.id]?.qty)||1),latest=sortedRecords().find(r=>r.productId===p.id);return `<div class="shopping-item"><input type="checkbox" aria-label="Add ${esc(p.name)} to shopping list" data-shopping-check="${p.id}" ${chosen?"checked":""}><div><div class="product-name">${esc(p.name)}</div><div class="sub">${esc(p.brand||"")}${latest?" · Latest saved price "+money(latest.price):" · No price recorded yet"}</div><div>${tagPills(p.tagIds||[])}</div></div><div><label class="help" for="qty-${p.id}">Packs</label><input class="qty" id="qty-${p.id}" type="number" min="1" step="1" value="${qty}" data-shopping-qty="${p.id}"></div></div>`}).join(""):empty(t("UI.Empty.noProductsFound"),t("UI.Empty.adjustSearch"));
+ renderShoppingRecommendations();
+}
+function renderShoppingRecommendations(){
+ const selected=Object.entries(shoppingSelection).filter(([id,x])=>x&&x.selected&&getProduct(id)&&!getProduct(id).archived).map(([id,x])=>({product:getProduct(id),qty:Math.max(1,Math.floor(Number(x.qty)||1))}));
+ if(!selected.length){$("shoppingRecommendations").innerHTML=empty(t("UI.Empty.shoppingListEmpty"),t("UI.Empty.selectProductsToCompare"));return;}
+ const activeStores=state.stores.filter(s=>!s.archived),latestMap=new Map();
+ for(const r of sortedRecords()){const k=r.productId+"|"+r.storeId;if(!latestMap.has(k))latestMap.set(k,r);}
+ const results=activeStores.map(store=>{let total=0,covered=0,missing=[],lines=[];for(const item of selected){const r=latestMap.get(item.product.id+"|"+store.id);if(!r){missing.push(item.product.name);continue;}covered++;const cost=Number(r.price)*item.qty;total+=cost;lines.push({name:item.product.name,qty:item.qty,unitPrice:r.price,cost});}return {store,total,covered,missing,lines,complete:covered===selected.length};}).filter(x=>x.covered>0).sort((a,b)=>{if(a.complete!==b.complete)return a.complete?-1:1;return a.total-b.total;});
+ if(!results.length){$("shoppingRecommendations").innerHTML=empty(t("UI.Empty.noPricesToCompare"),t("UI.Empty.recordPricesForSelected"));return;}
+ const complete=results.filter(x=>x.complete),incomplete=results.filter(x=>!x.complete),best=complete[0];
+ let html=best?`<div class="notice"><strong>Best full-basket option: ${esc(best.store.name)} at ${money(best.total)}.</strong> This supermarket has a saved price for every selected product. Totals are estimates based on your latest records.</div>`:'<div class="notice warn"><strong>No supermarket has saved prices for every item on your list.</strong> Incomplete baskets are shown separately and cannot be treated as a definitive cheapest option.</div>';
+ const basket=r=>`<details style="margin-top:10px"><summary class="help">View basket breakdown</summary><div class="table-wrap" style="margin-top:8px"><table><thead><tr><th>Product</th><th>Packs</th><th>Price per pack</th><th>Subtotal</th></tr></thead><tbody>${r.lines.map(l=>`<tr><td>${esc(l.name)}</td><td>${l.qty}</td><td>${money(l.unitPrice)}</td><td class="price">${money(l.cost)}</td></tr>`).join("")}</tbody></table></div></details>`;
+ if(complete.length)html+=`<h4 style="margin:16px 0 8px">Stores with prices for every item</h4>${complete.map((r,i)=>`<div class="recommendation ${i===0?"best":""}"><div class="recommendation-head"><div><div style="font-weight:750">${i===0?'<span class="pill">Lowest total</span> ':""}${esc(r.store.name)}</div><div class="sub">${r.covered} of ${selected.length} products · latest recorded prices</div></div><div class="recommendation-total">${money(r.total)}</div></div>${basket(r)}</div>`).join("")}`;
+ if(incomplete.length)html+=`<h4 style="margin:18px 0 8px">Incomplete price coverage</h4><p class="help">These totals exclude products without a saved price at that store, so they are not directly comparable with full-basket totals.</p>${incomplete.map(r=>`<div class="recommendation"><div class="recommendation-head"><div><div style="font-weight:750">${esc(r.store.name)}</div><div class="sub">Prices for ${r.covered} of ${selected.length} products · missing: ${esc(r.missing.join(", "))}</div></div><div class="recommendation-total">${money(r.total)}<div class="sub" style="text-align:right">partial total</div></div></div>${basket(r)}</div>`).join("")}`;
+ $("shoppingRecommendations").innerHTML=html;
+}
+function renderHistory(){let rs=sortedRecords(),q=$("historySearch").value.trim().toLowerCase(),store=$("historyStoreFilter").value;rs=rs.filter(r=>(!q||(getProduct(r.productId)?.name||"").toLowerCase().includes(q))&&(!store||r.storeId===store));const sort=$("historySort").value;if(sort==="date-asc")rs.reverse();if(sort==="price-asc")rs.sort((a,b)=>a.price-b.price);if(sort==="price-desc")rs.sort((a,b)=>b.price-a.price);$("historyTable").innerHTML=recordRows(rs);}
+function renderChart(){const id=$("chartProduct").value,p=getProduct(id);if(!p){$("chartArea").innerHTML=empty("Choose a product","Its saved price observations will appear here.");return;}const rs=state.records.filter(r=>r.productId===id).sort((a,b)=>(a.date||"").localeCompare(b.date||""));if(!rs.length){$("chartArea").innerHTML=empty("No history yet","Record a price for this product to start a chart.");return;}const w=700,h=210,left=48,right=18,top=18,bottom=36,vals=rs.map(r=>Number(r.price)),min=Math.min(...vals),max=Math.max(...vals),range=max-min||Math.max(max*.1,.1),x=i=>left+(rs.length===1?(w-left-right)/2:i*(w-left-right)/(rs.length-1)),y=v=>top+(max+range*.08-v)/(range*1.16)*(h-top-bottom);const points=rs.map((r,i)=>`${x(i)},${y(Number(r.price))}`).join(" ");let labels=rs.map((r,i)=>`<text class="chart-label" x="${x(i)}" y="${h-10}" text-anchor="${i===0?"start":i===rs.length-1?"end":"middle"}">${esc(dateFmt(r.date).replace(/, \d{4}$/,""))}</text>`).join("");$("chartArea").innerHTML=`<div class="sub" style="margin-bottom:8px">${rs.length} saved observations · prices shown are package prices, not unit prices</div><svg class="history-chart" viewBox="0 0 ${w} ${h}" role="img" aria-label="Price history chart">${[0,.5,1].map(t=>{const v=max+range*.08-t*range*1.16;return `<line x1="${left}" y1="${y(v)}" x2="${w-right}" y2="${y(v)}" stroke="#e7ebe4"/><text class="chart-label" x="${left-8}" y="${y(v)+4}" text-anchor="end">${money(v)}</text>`}).join("")}<polyline class="chart-line" points="${points}"/>${rs.map((r,i)=>`<circle class="chart-dot" cx="${x(i)}" cy="${y(Number(r.price))}" r="4"><title>${esc(dateFmt(r.date))}: ${money(r.price)} · ${esc(getStore(r.storeId)?.name||"")}</title></circle>`).join("")}${labels}</svg><div class="table-wrap" style="margin-top:8px"><table><thead><tr><th>Date</th><th>Supermarket</th><th>Price</th><th>Unit price</th><th>Change</th></tr></thead><tbody>${rs.slice().reverse().map(r=>`<tr><td>${dateFmt(r.date)}</td><td>${esc(getStore(r.storeId)?.name||"")}</td><td class="price">${money(r.price)}</td><td>${unitPriceText(r)}</td><td>${changeHTML(r)}</td></tr>`).join("")}</tbody></table></div>`;}
+function renderSettings(){renderManageList("storeList",state.stores,"store");renderManageList("tagList",state.tags,"tag");}
+function renderManageList(id,items,type){$(id).innerHTML=items.length?items.map(x=>`<div class="manage-row"><span>${esc(x.name)}</span><div class="inline-actions"><button class="small" data-action="rename-${type}" data-id="${x.id}">Rename</button><button class="small danger" data-action="remove-${type}" data-id="${x.id}">Remove</button></div></div>`).join(""):empty(type==="store"?"No supermarkets yet":"No tags yet","Add one using the field above.");}
+function renderCompareChart(productId){
+ const p=getProduct(productId);if(!p){$("compareChart").innerHTML=empty(t("UI.Empty.chooseProduct"),t("UI.Empty.selectProductHistory"));return;}
+ const records=state.records.filter(r=>r.productId===productId).sort((a,b)=>(a.date||"").localeCompare(b.date||""));
+ if(!records.length){$("compareChart").innerHTML=empty(t("UI.Empty.noPriceHistory"),t("UI.Empty.recordPricesCompareTrends"));return;}
+ const stores=[...new Set(records.map(r=>r.storeId))].map(id=>({id,name:getStore(id)?.name||"Archived store",records:records.filter(r=>r.storeId===id)}));
+ const w=760,h=290,left=66,right=22,top=20,bottom=45;
+ const allDates=records.map(r=>r.date).sort(), minDate=new Date(allDates[0]+"T12:00:00").getTime(), maxDate=new Date(allDates[allDates.length-1]+"T12:00:00").getTime();
+ const dateRange=maxDate-minDate||86400000;
+ const vals=records.map(r=>pricePerStandard(r)).filter(Number.isFinite),min=Math.min(...vals),max=Math.max(...vals),range=max-min||Math.max(max*.12,.1);
+ const x=r=>left+((new Date(r.date+"T12:00:00").getTime()-minDate)/dateRange)*(w-left-right);
+ const y=r=>top+(max+range*.08-pricePerStandard(r))/(range*1.16)*(h-top-bottom);
+ const palette=["#315c43","#3b82a0","#a05b39","#7962a8","#b08b27","#b34e65","#537a78","#70756b"];
+ const grid=[0,.5,1].map(t=>{const v=max+range*.08-t*range*1.16, yy=top+t*(h-top-bottom);return `<line x1="${left}" y1="${yy}" x2="${w-right}" y2="${yy}" stroke="#e7ebe4"/><text class="chart-label" x="${left-9}" y="${yy+4}" text-anchor="end">${money(v)}</text>`}).join("");
+ const lines=stores.map((st,i)=>{const sorted=st.records.filter(r=>Number.isFinite(pricePerStandard(r))).sort((a,b)=>a.date.localeCompare(b.date));const pts=sorted.map(r=>`${x(r)},${y(r)}`).join(" ");const color=palette[i%palette.length];return `<g><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>${sorted.map(r=>`<circle cx="${x(r)}" cy="${y(r)}" r="3.8" fill="${color}"><title>${esc(st.name)} · ${esc(dateFmt(r.date))}: ${money(pricePerStandard(r))}/${standardUnit(r.unit)} (pack ${money(r.price)})</title></circle>`).join("")}</g>`}).join("");
+ const dateLabel=(d)=>{const dt=new Date(d+"T12:00:00");return dt.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:allDates.length>1&&dt.getFullYear()!==new Date(allDates[0]+"T12:00:00").getFullYear()?"2-digit":undefined})};
+ const ticks=[allDates[0],allDates[Math.floor((allDates.length-1)/2)],allDates[allDates.length-1]].filter((v,i,a)=>a.indexOf(v)===i);
+ const xlabels=ticks.map((d,i)=>{const dt=new Date(d+"T12:00:00").getTime(),xx=left+((dt-minDate)/dateRange)*(w-left-right);return `<text class="chart-label" x="${xx}" y="${h-14}" text-anchor="${i===0?"start":i===ticks.length-1?"end":"middle"}">${esc(dateLabel(d))}</text>`}).join("");
+ const legend=stores.map((st,i)=>`<span style="display:inline-flex;align-items:center;gap:6px;margin:4px 12px 4px 0;font-size:12px"><span style="display:inline-block;width:18px;height:3px;background:${palette[i%palette.length]};border-radius:2px"></span>${esc(st.name)}</span>`).join("");
+ $("compareChart").innerHTML=`<div class="sub" style="margin-bottom:8px">Unit prices normalized to €/L, €/kg or €/unit. Hover a point for details. Use “Correct entry” below to fix an observation; the chart and comparisons will recalculate immediately.</div><svg class="history-chart" viewBox="0 0 ${w} ${h}" role="img" aria-label="Price history by supermarket">${grid}${lines}${xlabels}</svg><div style="margin-top:8px">${legend}</div><div class="table-wrap" style="margin-top:16px"><table><thead><tr><th>Date</th><th>Supermarket</th><th>Total price</th><th>Quantity</th><th>Unit price</th><th>Action</th></tr></thead><tbody>${records.slice().sort((a,b)=>(b.date||"").localeCompare(a.date||"")).map(r=>`<tr><td>${dateFmt(r.date)}</td><td>${esc(getStore(r.storeId)?.name||"Archived store")}</td><td class="price">${money(r.price)}</td><td>${Number(r.packCount)||1} × ${Number(r.quantity)||1} ${esc(unitName(r.unit))}</td><td>${unitPriceText(r)}</td><td><button class="small" data-action="edit-record" data-id="${r.id}">Correct entry</button></td></tr>`).join("")}</tbody></table></div>`;
+}
+function renderCompare(){const id=$("compareProduct").value,sort=$("compareSort").value,p=getProduct(id);if(!p){renderCompareChart(id);$("compareSummary").innerHTML=empty(t("UI.Empty.chooseProduct"),t("UI.Empty.addProductCompare"));$("compareTable").innerHTML="";return;}const latest=latestByProductStore().filter(r=>r.productId===id);if(!latest.length){renderCompareChart(id);$("compareSummary").innerHTML=empty("No prices recorded yet",`Record a price for ${esc(p.name)} at any supermarket to start comparing.`,'<button class="primary" data-action="add-price" data-id="'+id+'">Record first price</button>');$("compareTable").innerHTML="";return;}const standards=new Set(latest.map(r=>standardUnit(r.unit)));const compatible=standards.size===1;const sorted=[...latest].sort((a,b)=>{if(sort==="total")return a.price-b.price;return (pricePerStandard(a)??Infinity)-(pricePerStandard(b)??Infinity)});const cheapest=sort==="total"?Math.min(...latest.map(r=>r.price)):compatible?Math.min(...latest.map(r=>pricePerStandard(r))):null;const best=sorted[0];$("compareSummary").innerHTML=`<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:180px"><div class="sub">Product</div><div style="font-size:19px;font-weight:750">${esc(p.name)}</div><div class="sub">${esc(p.brand||"")}</div></div><div style="flex:1;min-width:180px"><div class="sub">Best ${sort==="total"?"total pack price":"comparable unit price"}</div><div style="font-size:22px;font-weight:800">${sort==="total"||compatible?money(cheapest)+(sort==="unit"?"/"+standardUnit(best.unit):""):"Not comparable"}</div><div class="sub">${esc(getStore(best.storeId)?.name||"Unknown store")} · observed ${dateFmt(best.date)}</div></div></div>${!compatible?'<div class="notice warn" style="margin-top:14px">These records use different measurement types ('+[...standards].join(", ")+'). Unit-price ranking is not meaningful across different types. Choose comparable quantities/units when recording prices.</div>':""}`;const rows=sorted.map((r,i)=>{const st=getStore(r.storeId),unit=pricePerStandard(r),isBest=(sort==="total"?r.price===cheapest:compatible&&unit===cheapest);return `<tr><td>${isBest?'<span class="pill">Cheapest</span> ':""}<strong>${esc(st?.name||"Archived store")}</strong><div class="sub">Observed ${dateFmt(r.date)}${r.promo?" · Promotion":""}</div></td><td class="price">${money(r.price)}</td><td>${Number(r.packCount)||1} × ${Number(r.quantity)||1} ${esc(unitName(r.unit))}<div class="sub">${(Number(r.packCount)||1)*(Number(r.quantity)||1)} ${esc(unitName(r.unit))} total before unit conversion</div></td><td class="price">${money(unit)}/${standardUnit(r.unit)}</td><td>${i+1}</td><td><button class="small" data-action="edit-record" data-id="${r.id}">Correct entry</button></td></tr>`}).join("");$("compareTable").innerHTML=`<div class="table-wrap"><table><thead><tr><th>Supermarket / latest observation</th><th>Total pack price</th><th>Pack quantity</th><th>Normalized unit price</th><th>Rank</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;renderCompareChart(id);}
+function render(){renderSelects();renderOverview();renderProducts();renderHistory();renderCompare();renderQuickBuy();renderSettings();}
+function go(page){currentPage=page;document.querySelectorAll(".page").forEach(x=>x.classList.toggle("hidden",x.id!=="page-"+page));document.querySelectorAll(".nav").forEach(x=>x.classList.toggle("active",x.dataset.page===page));if(page==="products")renderProducts();if(page==="history"){renderHistory();}if(page==="compare")renderCompare();if(page==="quickbuy")renderQuickBuy();window.scrollTo({top:0,behavior:"smooth"});}
+function modal(title,body,onSubmit){$("modalRoot").innerHTML=`<div class="modal-backdrop" id="backdrop"><div class="modal" role="dialog" aria-modal="true"><div class="modal-top"><h3>${title}</h3><button type="button" data-close-modal>✕</button></div>${body}</div></div>`;$("backdrop").addEventListener("click",e=>{if(e.target.id==="backdrop")closeModal()});const form=$("modalForm");if(form)form.addEventListener("submit",async e=>{e.preventDefault();try{await onSubmit(new FormData(form));}catch(err){console.error(err);toast(t("Common.couldNotSavePleaseCheckTheFieldsAndTryAgain"));}});}
+function closeModal(){$("modalRoot").innerHTML="";}
+function productForm(p={}) {
+  const isEdit = !!p.id;
+  modal(t(isEdit ? "Products.Form.editTitle" : "Products.Form.addTitle"), `
+    <form id="modalForm">
+      <div class="form-grid">
+        <div class="field">
+          <label>${t("Products.Form.nameLabel")}</label>
+          <input name="name" required maxlength="120" value="${esc(p.name||"")}" placeholder="${esc(t("Products.Form.namePlaceholder"))}">
+        </div>
+        <div class="field">
+          <label>${t("Products.Form.brandLabel")}</label>
+          <input name="brand" maxlength="100" value="${esc(p.brand||"")}" placeholder="${esc(t("Products.Form.brandPlaceholder"))}">
+        </div>
+        <div class="field wide">
+          <label>${t("Products.Form.tagsLabel")}</label>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">${state.tags.map(tag=>`<label style="font-size:13px;font-weight:500"><input type="checkbox" name="tagIds" value="${esc(tag.id)}" ${(p.tagIds||[]).includes(tag.id)?"checked":""}> ${esc(tag.name)}</label>`).join("")||`<span class="help">${t("Products.Form.noTagsHint")}</span>`}</div>
+        </div>
+        <div class="field wide">
+          <label>${t("Products.Form.notesLabel")}</label>
+          <input name="notes" maxlength="300" value="${esc(p.notes||"")}" placeholder="${esc(t("Products.Form.notesPlaceholder"))}">
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" data-close-modal>${t("Common.cancel")}</button>
+        <button class="primary" type="submit">${t("Products.Form.saveButton")}</button>
+      </div>
+    </form>`, async fd => {
+      const name = fd.get("name").trim();
+      if (!name) return;
+      const obj = {...p, id:p.id||uid(), name, brand:fd.get("brand").trim(), notes:fd.get("notes").trim(), tagIds:fd.getAll("tagIds"), updatedAt:new Date().toISOString(), createdAt:p.createdAt||new Date().toISOString()};
+      await put("products", obj);
+      await load();
+      closeModal();
+      render();
+      toast(t(isEdit ? "Products.Messages.updated" : "Products.Messages.added"));
+    });
+}
+function priceForm(prefillProductId,record){const r=record||{},isEdit=!!r.id;const productId=prefillProductId||r.productId||"";const productOpts=state.products.map(p=>`<option value="${p.id}" ${p.id===productId?"selected":""}>${esc(p.name)}${p.brand?" — "+esc(p.brand):""}</option>`).join("");const storeOpts=state.stores.map(s=>`<option value="${s.id}" ${s.id===(r.storeId||"")?"selected":""}>${esc(s.name)}</option>`).join("");modal(isEdit?"Edit price record":"Record a price",`${!state.products.length?'<div class="notice warn">Create a product before recording its price.</div>':""}${!state.stores.length?'<div class="notice warn">Add a supermarket in Settings before recording a price.</div>':""}<div class="notice">${isEdit?"Correcting this entry updates the existing observation (it will not create a duplicate). The previous values are kept in its edit history, and charts/comparisons recalculate after saving.":"Saving creates a dated observation. Earlier prices are retained. You can record a shelf price even if you did not buy it."}</div><form id="modalForm"><div class="form-grid"><div class="field wide"><label>Product *</label><select name="productId" required>${productOpts}</select></div><div class="field"><label>Supermarket *</label><select name="storeId" required>${storeOpts}</select></div><div class="field"><label>Date observed *</label><input type="date" name="date" required value="${esc(r.date||today())}" max="2100-12-31"></div><div class="field"><label>Total price (€) *</label><input type="number" name="price" required min="0" step="0.01" value="${r.price??""}" placeholder="1.15"></div><div class="field"><label>Pack count</label><input type="number" name="packCount" min="1" step="1" required value="${r.packCount??1}"><span class="help">e.g. 3 bottles in a multipack</span></div><div class="field"><label>Quantity per item</label><input type="number" name="quantity" min="0.0001" step="any" required value="${r.quantity??1}"></div><div class="field"><label>Measurement unit *</label><select name="unit" required>${["L","ml","kg","g","unit"].map(u=>`<option value="${u}" ${u===(r.unit||"L")?"selected":""}>${u==="unit"?"Unit (each)":u}</option>`).join("")}</select></div><div class="field wide"><label style="display:flex;align-items:center;gap:8px;font-size:13px"><input type="checkbox" name="promo" ${r.promo?"checked":""}> Promotional price</label></div><div class="field wide"><label>Notes (optional)</label><input name="notes" maxlength="300" value="${esc(r.notes||"")}" placeholder="e.g. loyalty-card offer, shelf price"></div></div><div class="help" style="margin-top:12px">Unit price is calculated automatically and normalized to €/L, €/kg, or €/unit. Price is the total for the full pack.</div><div class="form-actions"><button type="button" data-close-modal>Cancel</button><button class="primary" type="submit" ${!state.products.length||!state.stores.length?"disabled":""}>${isEdit?"Save correction":"Save price record"}</button></div></form>`,async fd=>{const price=Number(fd.get("price")),packCount=Number(fd.get("packCount")),quantity=Number(fd.get("quantity"));if(price<0||packCount<1||quantity<=0)throw Error("Invalid numeric value");const obj={...r,id:r.id||uid(),productId:fd.get("productId"),storeId:fd.get("storeId"),date:fd.get("date"),price,packCount,quantity,unit:fd.get("unit"),promo:fd.get("promo")==="on",notes:fd.get("notes").trim(),updatedAt:new Date().toISOString(),createdAt:r.createdAt||new Date().toISOString()};if(isEdit)obj.editHistory=[...(r.editHistory||[]),{at:new Date().toISOString(),previous:{price:r.price,date:r.date,storeId:r.storeId,productId:r.productId,packCount:r.packCount,quantity:r.quantity,unit:r.unit,promo:r.promo,notes:r.notes}}];await put("records",obj);await load();closeModal();render();toast(isEdit?"Price entry corrected; charts updated":"Price observation saved");});}
+async function removeWithReference(type,obj){const referenced=type==="store"?state.records.filter(r=>r.storeId===obj.id):type==="tag"?state.products.filter(p=>(p.tagIds||[]).includes(obj.id)):[];if(referenced.length){if(type==="store"){if(!confirm(`"${obj.name}" is used by ${referenced.length} price record(s). Remove it from the active supermarket list? Historical records will remain visible as archived-store entries.`))return;obj.archived=true;obj.name=obj.name+" (archived)";await put("stores",obj);}else{if(!confirm(`"${obj.name}" is assigned to ${referenced.length} product(s). Remove this tag from those products?`))return;await del("tags",obj.id);for(const p of referenced)await put("products",{...p,tagIds:p.tagIds.filter(id=>id!==obj.id),updatedAt:new Date().toISOString()});}}else{if(!confirm(`Remove "${obj.name}"?`))return;await del(type==="store"?"stores":"tags",obj.id);}await load();render();toast(t("UI.Settings.listUpdated"));}
+function exportBackup(){const payload={app:"Pantry Price",schemaVersion:1,exportedAt:new Date().toISOString(),currency:CURRENCY,...state};const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="pantry-price-backup-"+today()+".json";a.click();URL.revokeObjectURL(url);toast("Backup exported");}
+async function importBackup(file){if(!file)return;try{const data=JSON.parse(await file.text());if(!data||!Array.isArray(data.products)||!Array.isArray(data.stores)||!Array.isArray(data.tags)||!Array.isArray(data.records))throw Error("Invalid backup");if(!confirm("Import this backup? Existing records with matching IDs will be replaced; other existing records will be kept."))return;for(const [key,store] of [["products","products"],["stores","stores"],["tags","tags"],["records","records"]])for(const obj of data[key]){if(!obj.id)throw Error("Missing record ID");await put(store,obj);}await load();render();toast("Backup imported");}catch(e){alert("Could not import this backup. Please choose a Pantry Price JSON backup.");}}
+function addDefaults(){return Promise.all([["Lidl","Supermarket"],["Fruit","Bottled","Dairy","Organic","Household"]].map(async()=>{}));}
+document.addEventListener("click",async e=>{const nav=e.target.closest("[data-page]");if(nav){go(nav.dataset.page);return;}const goto=e.target.closest("[data-goto]");if(goto){go(goto.dataset.goto);return;}const close=e.target.closest("[data-close-modal]");if(close){closeModal();return;}const b=e.target.closest("[data-action]");if(!b)return;const {action,id}=b.dataset;if(action==="compare-product"){go("compare");$("compareProduct").value=id;renderCompare();return;}if(action==="add-product")productForm();if(action==="edit-product")productForm(getProduct(id));if(action==="add-price")priceForm(id);if(action==="edit-record"){const r=state.records.find(x=>x.id===id);if(r)priceForm(r.productId,r);}if(action==="delete-record"){const r=state.records.find(x=>x.id===id);if(r&&confirm(`Delete the price record from ${dateFmt(r.date)}? This cannot be undone.`)){await del("records",id);await load();render();toast(t("UI.Messages.priceRecordDeleted"));}}if(action==="delete-product"){const p=getProduct(id),n=state.records.filter(r=>r.productId===id).length;if(p&&confirm(n?`"${p.name}" has ${n} price record(s). Archive the product so its history remains intact?`:`Delete "${p.name}"?`)){if(n){await put("products",{...p,archived:true,name:p.name+" (archived)"});}else await del("products",id);await load();render();toast(n?"Product archived":"Product deleted");}}if(action==="rename-store"||action==="rename-tag"){const type=action==="rename-store"?"store":"tag",obj=type==="store"?getStore(id):getTag(id),name=prompt("New name:",obj?.name||"");if(name&&name.trim()){obj.name=name.trim();obj.updatedAt=new Date().toISOString();await put(type==="store"?"stores":"tags",obj);await load();render();toast(t("UI.Settings.renamed"));}}if(action==="remove-store")await removeWithReference("store",getStore(id));if(action==="remove-tag")await removeWithReference("tag",getTag(id));});
+$("addProductBtn").onclick=()=>productForm();$("addPriceBtn").onclick=()=>priceForm();$("productSearch").addEventListener("input",renderProducts);$("productStoreFilter").addEventListener("change",renderProducts);$("productTagFilter").addEventListener("change",renderProducts);$("historySearch").addEventListener("input",renderHistory);$("historyStoreFilter").addEventListener("change",renderHistory);$("historySort").addEventListener("change",renderHistory);$("compareProduct").addEventListener("change",renderCompare);$("compareSort").addEventListener("change",renderCompare);$("shoppingSearch").addEventListener("input",renderQuickBuy);
+$("clearShoppingList").addEventListener("click",()=>{if(confirm("Clear all selected products from today's shopping list?")){shoppingSelection={};saveShoppingSelection();renderQuickBuy();}});
+$("selectVisibleProducts").addEventListener("click",()=>{const q=$("shoppingSearch").value.trim().toLowerCase();state.products.filter(p=>!p.archived&&(!q||(p.name+" "+(p.brand||"")+" "+(p.tagIds||[]).map(id=>getTag(id)?.name||"").join(" ")).toLowerCase().includes(q))).forEach(p=>{shoppingSelection[p.id]={selected:true,qty:Math.max(1,Number(shoppingSelection[p.id]?.qty)||1)}});saveShoppingSelection();renderQuickBuy();});
+$("deselectVisibleProducts").addEventListener("click",()=>{const q=$("shoppingSearch").value.trim().toLowerCase();state.products.filter(p=>!p.archived&&(!q||(p.name+" "+(p.brand||"")+" "+(p.tagIds||[]).map(id=>getTag(id)?.name||"").join(" ")).toLowerCase().includes(q))).forEach(p=>{if(shoppingSelection[p.id])shoppingSelection[p.id].selected=false});saveShoppingSelection();renderQuickBuy();});
+$("shoppingProducts").addEventListener("change",e=>{const check=e.target.closest("[data-shopping-check]"),qty=e.target.closest("[data-shopping-qty]");if(check){const id=check.dataset.shoppingCheck;shoppingSelection[id]={...(shoppingSelection[id]||{}),selected:check.checked,qty:Math.max(1,Number(shoppingSelection[id]?.qty)||1)};saveShoppingSelection();renderQuickBuy();}else if(qty){const id=qty.dataset.shoppingQty;shoppingSelection[id]={...(shoppingSelection[id]||{}),selected:!!shoppingSelection[id]?.selected,qty:Math.max(1,Math.floor(Number(qty.value)||1))};saveShoppingSelection();renderShoppingRecommendations();}});
+$("addComparePriceBtn").onclick=()=>priceForm($("compareProduct").value||undefined);$("exportBtn2").onclick=exportBackup;
+$("importFile2").onchange=e=>{importBackup(e.target.files[0]);e.target.value="";};
+$("storeForm").onsubmit=async e=>{e.preventDefault();const name=$("storeName").value.trim();if(!name)return;if(state.stores.some(s=>s.name.toLowerCase()===name.toLowerCase()))return toast("That supermarket already exists");await put("stores",{id:uid(),name,createdAt:new Date().toISOString()});$("storeName").value="";await load();render();toast(t("UI.Messages.supermarketAdded"));};
+$("tagForm").onsubmit=async e=>{e.preventDefault();const name=$("tagName").value.trim();if(!name)return;if(state.tags.some(t=>t.name.toLowerCase()===name.toLowerCase()))return toast("That tag already exists");await put("tags",{id:uid(),name,createdAt:new Date().toISOString()});$("tagName").value="";await load();render();toast(t("UI.Messages.tagAdded"));};
+$("resetDemo").onclick=async()=>{if(!confirm("Permanently delete ALL products, price records, supermarkets and tags from this browser? Export a backup first if you may need this data."))return;for(const s of ["products","records","stores","tags"])for(const x of await all(s))await del(s,x.id);await load();render();toast(t("UI.Messages.allLocalDataCleared"));};
+// The language is controlled by Settings, never inferred from the browser locale.
+document.addEventListener("change", event => {
+  if (event.target?.id === "languageSelect") {
+    language = event.target.value || "en";
+    try { localStorage.setItem("pantry-price-language", language); } catch {}
+    applyLanguage();
+  }
+});
+const localizationObserver = new MutationObserver(records => {
+  for (const record of records) {
+    if (record.type === "childList") record.addedNodes.forEach(node => { if (node.nodeType === Node.ELEMENT_NODE || node.nodeType === Node.TEXT_NODE) { const root = node.nodeType === Node.TEXT_NODE ? node.parentElement : node; if(root) { applyGeneratedTranslations(root); } } });
+    else if (record.type === "characterData") applyGeneratedTranslations(record.target.parentElement);
+  }
+});
+function applyGeneratedTranslations(root) { localizeNode(root); }
+localizationObserver.observe(document.body, {subtree:true, childList:true, characterData:true});
+applyLanguage();
+
+(async()=>{try{db=await openDB();await load();if(!state.stores.length&&!state.products.length&&!state.tags.length){for(const name of ["Lidl","Greens","PAVI","Welbee's"])await put("stores",{id:uid(),name,createdAt:new Date().toISOString()});for(const name of ["Fruit","Bottled","Dairy","Organic","Household"])await put("tags",{id:uid(),name,createdAt:new Date().toISOString()});await load();}render();go("products");}catch(err){console.error(err);document.querySelector(".main").innerHTML='<div class="panel"><h2>Local storage unavailable</h2><p>This tracker needs a browser with IndexedDB enabled. Try opening it in a modern browser and avoid private browsing modes that clear local data.</p></div>';}})();
+})();
+</script>
+</body>
+</html>
